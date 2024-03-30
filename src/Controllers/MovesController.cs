@@ -44,7 +44,7 @@ public class MovesController : Controller
             return Ok(finishedGame);
         }
         game.GameCells[(newCell.Pos.X, newCell.Pos.Y)] = newCell;
+        game.Score = game.GameCells.Max(v => int.Parse(v.Value.Content));
         return Ok(new GameDto(game));
-
     }
 }

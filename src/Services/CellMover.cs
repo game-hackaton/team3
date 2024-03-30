@@ -116,11 +116,11 @@ namespace thegame.Services
         public static CellDto[] MoveDown(Guid gameId)
         {
             var game = GamesRepository.Games[gameId];
-            var field = TryMoveUp(game.GameCells.Values);
+            var field = TryMoveDown(game.GameCells.Values);
 
             field = TryJoinUp(field.Where(x => x.ZIndex > 0).OrderBy(x => x.Pos.Y).ToList());
 
-            return TryMoveUp(field).ToArray();
+            return TryMoveDown(field).ToArray();
 
         }
 

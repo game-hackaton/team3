@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using thegame.Models;
 using thegame.Services;
@@ -9,12 +8,10 @@ namespace thegame.Controllers;
 [Route("api/games/{gameId}/moves")]
 public class MovesController : Controller
 {
-    public static VectorDto vector = new VectorDto { X = 1, Y = 1 };
-    public static GameDto game = TestData.AGameDto(vector);
-
     [HttpPost]
     public IActionResult Moves(Guid gameId, [FromBody]UserInputDto userInput)
     {
+        var game = GamesRepository.games[gameId];
         if (userInput.KeyPressed == 37 && game.Cells[^1].Pos.X - 1 >= 0)
             game.Cells[^1].Pos.X -= 1;
         else if (userInput.KeyPressed == 39&& game.Cells[^1].Pos.X + 1 < 4)

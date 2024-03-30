@@ -1,9 +1,23 @@
 using System;
+using System.Linq;
+using thegame.Services;
 
 namespace thegame.Models;
 
 public class GameDto
 {
+    public GameDto(GameData data)
+    {
+        Cells = data.GameCells.Concat(GamesRepository.Fields[(data.Width, data.Height)]).ToArray();
+        MonitorKeyboard = true;
+        MonitorMouseClicks = true;
+        Width = data.Width;
+        Height = data.Height;
+        Id = data.Id;
+        IsFinished = data.IsFinished;
+        Score = data.Score;
+    }
+    
     public GameDto(CellDto[] cells, bool monitorKeyboard, bool monitorMouseClicks, int width, int height, Guid id, bool isFinished, int score)
     {
         Cells = cells;

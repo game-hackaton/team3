@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using thegame.Models;
 using thegame.Services;
@@ -37,7 +36,6 @@ public class MovesController : Controller
             }
         }
 
-        return Ok(new GameDto(game.GameCells.Concat(GamesRepository.Fields[(game.Width, game.Height)]).ToArray(),
-            true, true, game.Width, game.Height, game.Id, game.IsFinished, game.Score));
+        return Ok(new GameDto(game));
     }
 }

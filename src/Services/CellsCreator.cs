@@ -36,6 +36,11 @@ public static class CellsCreator
             $"{value}", value);
     }
 
+    public static CellDto CreateCellWithTile(int tile, int id)
+    {
+        return new CellDto($"{id}", new VectorDto(), $"tile-{tile}", $"{tile}", tile);
+    }
+
     private static Point GetRandomPoint(HashSet<Point> points)
     {
         return points.ElementAt(random.Next(points.Count));

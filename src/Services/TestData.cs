@@ -29,7 +29,7 @@ public class TestData
         var width = 4;
         var height = 4;
         var cellsDict = CreateField(height, width);
-        var firstCell = CellsCreator.CreateCellInRandomPlace(new Dictionary<(int, int), CellDto>(), width, height);
+        CellsCreator.TryCreateCellInRandomPlace(new Dictionary<(int, int), CellDto>(), width, height, out var firstCell);
         var testCells = cellsDict.Values.Concat(new [] {firstCell}).ToArray();
         return new GameDto(testCells, true, true, width, height, gameId, false, 0);
     }

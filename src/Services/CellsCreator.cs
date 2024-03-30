@@ -10,9 +10,10 @@ public static class CellsCreator
 {
     private static Random random = new ((int)DateTime.Now.Ticks);
     
-    public static CellDto CreateCellInRandomPlace(Dictionary<(int, int), CellDto> cells, int gameWidth, int gameHeight)
+    public static bool TryCreateCellInRandomPlace(Dictionary<(int, int), CellDto> cells, 
+        int gameWidth, int gameHeight, out CellDto resultCell)
     {
-        var maxId = -1;
+        var maxId = 100;
         var allCells = new HashSet<Point>();
         for (var x = 0; x < gameWidth; x++)
         for (var y = 0; y < gameHeight; y++)
@@ -21,28 +22,27 @@ public static class CellsCreator
         foreach (var cell in cells)
         {
             var point = new Point(cell.Key.Item1, cell.Key.Item2);
-            if (allCells.Contains(point))
-            {
-                if (int.TryParse(cell.Value.Id, out var result) && result > maxId)
-                    maxId = result;
-                allCells.Remove(point);
-            }
+            if (!allCells.Contains(point)) continue;
+            if (int.TryParse(cell.Value.Id, out var result) && result > maxId)
+                maxId = result;
+            allCells.Remove(point);
         }
 
-        var newPoint = GetRandomPoint(allCells);
+        if (allCells.Count == 0)
+        {
+            resultCell = null;
+            return false;
+        }
+        var newPoint = allCells.ElementAt(random.Next(allCells.Count));
         var value = random.Next(10);
         value = value >= 8 ? 4 : 2;
-        return new CellDto($"{maxId}", new VectorDto { X = newPoint.X, Y = newPoint.Y }, $"tile-{value}", 
+        resultCell = new CellDto($"{maxId + 1}", new VectorDto { X = newPoint.X, Y = newPoint.Y }, $"tile-{value}",
             $"{value}", value);
+        return true;
     }
 
     public static CellDto CreateCellWithTile(int tile, int id)
     {
         return new CellDto($"{id}", new VectorDto(), $"tile-{tile}", $"{tile}", tile);
-    }
-
-    private static Point GetRandomPoint(HashSet<Point> points)
-    {
-        return points.ElementAt(random.Next(points.Count));
     }
 }

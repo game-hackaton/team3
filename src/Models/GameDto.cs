@@ -8,7 +8,7 @@ public class GameDto
 {
     public GameDto(GameData data)
     {
-        Cells = data.GameCells.Concat(GamesRepository.Fields[(data.Width, data.Height)]).ToArray();
+        Cells = GamesRepository.Fields[(data.Width, data.Height)].Concat(data.GameCells.Values).ToArray();
         MonitorKeyboard = true;
         MonitorMouseClicks = true;
         Width = data.Width;

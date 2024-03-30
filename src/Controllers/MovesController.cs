@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using thegame.Models;
 using thegame.Services;
@@ -14,21 +15,21 @@ public class MovesController : Controller
         var game = GamesRepository.Games[gameId];
         while (true)
         {
-            if (userInput.KeyPressed == 37 && game.GameCells[^1].Pos.X - 1 >= 0)
+            if (userInput.KeyPressed == 37 && game.GameCells.FirstOrDefault().Value.Pos.X - 1 >= 0)
             {
-                game.GameCells[^1].Pos.X -= 1;
+                game.GameCells.FirstOrDefault().Value.Pos.X -= 1;
             }
-            else if (userInput.KeyPressed == 39 && game.GameCells[^1].Pos.X + 1 < 4)
+            else if (userInput.KeyPressed == 39 && game.GameCells.FirstOrDefault().Value.Pos.X + 1 < 4)
             {
-                game.GameCells[^1].Pos.X += 1;
+                game.GameCells.FirstOrDefault().Value.Pos.X += 1;
             }
-            else if (userInput.KeyPressed == 38 && game.GameCells[^1].Pos.Y - 1 >= 0)
+            else if (userInput.KeyPressed == 38 && game.GameCells.FirstOrDefault().Value.Pos.Y - 1 >= 0)
             {
-                game.GameCells[^1].Pos.Y -= 1;
+                game.GameCells.FirstOrDefault().Value.Pos.Y -= 1;
             }
-            else if (userInput.KeyPressed == 40 && game.GameCells[^1].Pos.Y + 1 < 4)
+            else if (userInput.KeyPressed == 40 && game.GameCells.FirstOrDefault().Value.Pos.Y + 1 < 4)
             {
-                game.GameCells[^1].Pos.Y += 1;
+                game.GameCells.FirstOrDefault().Value.Pos.Y += 1;
             }
             else
             {
@@ -36,6 +37,14 @@ public class MovesController : Controller
             }
         }
 
+        if (!CellsCreator.TryCreateCellInRandomPlace(game.GameCells, game.Width, game.Height, out var newCell))
+        {
+            var finishedGame = new GameDto(game);
+            finishedGame.IsFinished = true;
+            return Ok(finishedGame);
+        }
+        game.GameCells[(newCell.Pos.X, newCell.Pos.Y)] = newCell;
         return Ok(new GameDto(game));
+
     }
 }

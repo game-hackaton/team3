@@ -19,7 +19,7 @@ public class TestData
                 counter++;
             }
         }
-
+        
         return cellsDict;
     }
     public static GameDto AGameDto(VectorDto movingObjectPosition)
@@ -27,7 +27,6 @@ public class TestData
         var width = 4;
         var height = 4;
         var cellsDict = CreateField(height, width);
-
         var testCells = cellsDict.Values.ToArray();
         return new GameDto(testCells, true, true, width, height, Guid.Empty, movingObjectPosition.X == 0, movingObjectPosition.Y);
     }

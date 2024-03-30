@@ -12,6 +12,7 @@ public static class CellsCreator
     
     public static CellDto CreateCellInRandomPlace(CellDto[] cells, int gameWidth, int gameHeight)
     {
+        var id = int.Parse(cells[^1].Id) + 1;
         var allCells = new HashSet<Point>();
         for (var x = 0; x < gameWidth; x++)
         for (var y = 0; y < gameHeight; y++)
@@ -26,7 +27,7 @@ public static class CellsCreator
         var newPoint = GetRandomPoint(allCells);
         var value = random.Next(10);
         value = value <= 8 ? 4 : 2;
-        return new CellDto("", new VectorDto { X = newPoint.X, Y = newPoint.Y }, $"tile-{value}", 
+        return new CellDto($"{id}", new VectorDto { X = newPoint.X, Y = newPoint.Y }, $"tile-{value}", 
             $"{value}", value);
     }
 

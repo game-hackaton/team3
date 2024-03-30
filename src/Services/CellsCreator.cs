@@ -22,7 +22,11 @@ public static class CellsCreator
         {
             var point = new Point(cell.Key.Item1, cell.Key.Item2);
             if (allCells.Contains(point))
+            {
+                if (int.TryParse(cell.Value.Id, out var result) && result > maxId)
+                    maxId = result;
                 allCells.Remove(point);
+            }
         }
 
         var newPoint = GetRandomPoint(allCells);

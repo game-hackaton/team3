@@ -47,11 +47,11 @@ public class MovesController : Controller
         {
             return CellMover.MoveRight(gameId);
         }
-        else if (userInput.KeyPressed == 38 && game.GameCells.FirstOrDefault().Value.Pos.Y - 1 >= 0)
+        else if (userInput.KeyPressed == 38)
         {
             return CellMover.MoveDown(gameId);
         }
-        else if (userInput.KeyPressed == 40 && game.GameCells.FirstOrDefault().Value.Pos.Y + 1 < 4)
+        else if (userInput.KeyPressed == 40)
         {
             return CellMover.MoveUp(gameId);
         }

@@ -13,29 +13,10 @@ public class MovesController : Controller
     public IActionResult Moves(Guid gameId, [FromBody]UserInputDto userInput)
     {
         var game = GamesRepository.Games[gameId];
-        while (true)
-        {
-            if (userInput.KeyPressed == 37 && game.GameCells.FirstOrDefault().Value.Pos.X - 1 >= 0)
-            {
-                game.GameCells.FirstOrDefault().Value.Pos.X -= 1;
-            }
-            else if (userInput.KeyPressed == 39 && game.GameCells.FirstOrDefault().Value.Pos.X + 1 < 4)
-            {
-                game.GameCells.FirstOrDefault().Value.Pos.X += 1;
-            }
-            else if (userInput.KeyPressed == 38 && game.GameCells.FirstOrDefault().Value.Pos.Y - 1 >= 0)
-            {
-                game.GameCells.FirstOrDefault().Value.Pos.Y -= 1;
-            }
-            else if (userInput.KeyPressed == 40 && game.GameCells.FirstOrDefault().Value.Pos.Y + 1 < 4)
-            {
-                game.GameCells.FirstOrDefault().Value.Pos.Y += 1;
-            }
-            else
-            {
-                break;
-            }
-        }
+
+        var field = GetMovedCells(gameId, userInput);
+
+        game.GameCells = field.ToDictionary(x => (x.Pos.X, x.Pos.Y), y => y);
 
         if (!CellsCreator.TryCreateCellInRandomPlace(game.GameCells, game.Width, game.Height, out var newCell))
         {
@@ -46,5 +27,28 @@ public class MovesController : Controller
         game.GameCells[(newCell.Pos.X, newCell.Pos.Y)] = newCell;
         game.Score = game.GameCells.Max(v => int.Parse(v.Value.Content));
         return Ok(new GameDto(game));
+    }
+
+    public static CellDto[] GetMovedCells(Guid gameId, [FromBody] UserInputDto userInput)
+    {
+        var game = GamesRepository.Games[gameId];
+
+        if (userInput.KeyPressed == 37)
+        {
+            return CellMover.MoveLeft(gameId);
+        }
+        else if (userInput.KeyPressed == 39)
+        {
+            return CellMover.MoveRight(gameId);
+        }
+        else if (userInput.KeyPressed == 38 && game.GameCells.FirstOrDefault().Value.Pos.Y - 1 >= 0)
+        {
+            return CellMover.MoveDown(gameId);
+        }
+        else if (userInput.KeyPressed == 40 && game.GameCells.FirstOrDefault().Value.Pos.Y + 1 < 4)
+        {
+            return CellMover.MoveUp(gameId);
+        }
+        return GamesRepository.Games[gameId].GameCells.Values.ToArray();
     }
 }

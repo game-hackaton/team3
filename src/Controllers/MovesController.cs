@@ -16,16 +16,21 @@ public class MovesController : Controller
 
         var field = GetMovedCells(gameId, userInput);
 
+        var prevCells = game.GameCells;
         game.GameCells = field.ToDictionary(x => (x.Pos.X, x.Pos.Y), y => y);
+        if (!prevCells.SequenceEqual(game.GameCells)){
+            if (!CellsCreator.TryCreateCellInRandomPlace(game.GameCells, game.Width, game
+                    .Height, out var
+                    newCell))
+            {
+                var finishedGame = new GameDto(game);
+                finishedGame.IsFinished = true;
+                return Ok(finishedGame);
+            }
 
-        if (!CellsCreator.TryCreateCellInRandomPlace(game.GameCells, game.Width, game.Height, out var newCell))
-        {
-            var finishedGame = new GameDto(game);
-            finishedGame.IsFinished = true;
-            return Ok(finishedGame);
+            game.GameCells[(newCell.Pos.X, newCell.Pos.Y)] = newCell;
+            game.Score = game.GameCells.Max(v => int.Parse(v.Value.Content));
         }
-        game.GameCells[(newCell.Pos.X, newCell.Pos.Y)] = newCell;
-        game.Score = game.GameCells.Max(v => int.Parse(v.Value.Content));
         return Ok(new GameDto(game));
     }
 

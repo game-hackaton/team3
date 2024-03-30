@@ -27,7 +27,7 @@ public static class CellsCreator
 
         var newPoint = GetRandomPoint(allCells);
         var value = random.Next(10);
-        value = value <= 8 ? 4 : 2;
+        value = value >= 8 ? 4 : 2;
         return new CellDto($"{maxId}", new VectorDto { X = newPoint.X, Y = newPoint.Y }, $"tile-{value}", 
             $"{value}", value);
     }

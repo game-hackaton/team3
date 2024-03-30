@@ -6,5 +6,6 @@ namespace thegame.Services;
 
 public class GamesRepository
 {
-    public static readonly Dictionary<Guid, GameDto> games = new();
+    public static readonly Dictionary<Guid, GameData> Games = new();
+    public static readonly Dictionary<(int, int), CellDto[]> Fields= new ();
 }

@@ -19,6 +19,8 @@ public class TestData
                 counter++;
             }
         }
+
+        GamesRepository.Fields[(width, height)] = cellsDict.Values.ToArray();
         
         return cellsDict;
     }

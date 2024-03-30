@@ -1,22 +1,34 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using thegame.Models;
 
 namespace thegame.Services;
 
 public class TestData
 {
+    private static Dictionary<(int, int), CellDto> CreateField(int height, int width)
+    {
+        var cellsDict = new Dictionary<(int, int), CellDto>();
+        var counter = 0;
+        for (var x = 0; x < width; x++)
+        {
+            for (var y = 0; y < height; y++)
+            {
+                cellsDict[(x, y)] = new CellDto($"{counter}", new VectorDto { X = x, Y = y }, "tile-2", "", -1);
+                counter++;
+            }
+        }
+
+        return cellsDict;
+    }
     public static GameDto AGameDto(VectorDto movingObjectPosition)
     {
-        var width = 10;
-        var height = 8;
-        var testCells = new[]
-        {
-            new CellDto("1", new VectorDto {X = 2, Y = 4}, "color1", "", 0),
-            new CellDto("2", new VectorDto {X = 5, Y = 4}, "color1", "", 0),
-            new CellDto("3", new VectorDto {X = 3, Y = 1}, "color2", "", 20),
-            new CellDto("4", new VectorDto {X = 1, Y = 0}, "color2", "", 20),
-            new CellDto("5", movingObjectPosition, "color4", "☺", 10),
-        };
+        var width = 4;
+        var height = 4;
+        var cellsDict = CreateField(height, width);
+
+        var testCells = cellsDict.Values.ToArray();
         return new GameDto(testCells, true, true, width, height, Guid.Empty, movingObjectPosition.X == 0, movingObjectPosition.Y);
     }
 }

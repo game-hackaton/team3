@@ -13,7 +13,9 @@ public class GamesController : Controller
     {
         var guid = Guid.NewGuid();
         var game = TestData.AGameDto(guid);
-        GamesRepository.games[guid] = game;
+        
+        GamesRepository.Games[guid] = new GameData(new []{game.Cells[^1]}, game.Width, game.Height,
+            game.Id, game.IsFinished, game.Score);
         return Ok(game);
     }
 }

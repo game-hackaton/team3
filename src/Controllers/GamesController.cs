@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using thegame.Models;
 using thegame.Services;
@@ -10,6 +11,9 @@ public class GamesController : Controller
     [HttpPost]
     public IActionResult Index()
     {
-        return Ok(TestData.AGameDto(new VectorDto {X = 1, Y = 1}));
+        var guid = Guid.NewGuid();
+        var game = TestData.AGameDto(guid);
+        GamesRepository.games[guid] = game;
+        return Ok(game);
     }
 }

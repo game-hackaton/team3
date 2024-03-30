@@ -22,13 +22,13 @@ public class TestData
         
         return cellsDict;
     }
-    public static GameDto AGameDto(VectorDto movingObjectPosition)
+    public static GameDto AGameDto(Guid gameId)
     {
         var width = 4;
         var height = 4;
         var cellsDict = CreateField(height, width);
         var firstCell = CellsCreator.CreateCellInRandomPlace(new Dictionary<(int, int), CellDto>(), width, height);
         var testCells = cellsDict.Values.Concat(new [] {firstCell}).ToArray();
-        return new GameDto(testCells, true, true, width, height, Guid.Empty, movingObjectPosition.X == 0, movingObjectPosition.Y);
+        return new GameDto(testCells, true, true, width, height, gameId, false, 0);
     }
 }

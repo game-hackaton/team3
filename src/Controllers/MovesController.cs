@@ -13,8 +13,10 @@ public class MovesController : Controller
     public static GameDto game = TestData.AGameDto(vector);
 
     [HttpPost]
-    public IActionResult Moves(Guid gameId, [FromBody] UserInputDto userInput)
+    public IActionResult Moves(Guid gameId, [FromBody]UserInputDto userInput)
     {
+        
+        var game = GamesRepository.games[gameId];
         while (true)
         {
             if (userInput.KeyPressed == 37 && game.Cells[^1].Pos.X - 1 >= 0)

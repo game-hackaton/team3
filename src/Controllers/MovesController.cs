@@ -9,9 +9,6 @@ namespace thegame.Controllers;
 [Route("api/games/{gameId}/moves")]
 public class MovesController : Controller
 {
-    public static VectorDto vector = new VectorDto { X = 1, Y = 1 };
-    public static GameDto game = TestData.AGameDto(vector);
-
     [HttpPost]
     public IActionResult Moves(Guid gameId, [FromBody]UserInputDto userInput)
     {

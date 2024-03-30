@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Default ignored files
 /shelf/
 /workspace.xml
@@ -6,6 +7,16 @@
 /.idea.src.iml
 /contentModel.xml
 /modules.xml
+=======
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/modules.xml
+/contentModel.xml
+/.idea.src.iml
+/projectSettingsUpdater.xml
+>>>>>>> 5089358091ed0d9fbaeac978d07bd11bea9eb7ac
 # Editor-based HTTP Client requests
 /httpRequests/
 # Datasource local storage ignored files

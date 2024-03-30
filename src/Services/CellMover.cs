@@ -196,6 +196,7 @@ namespace thegame.Services
             return field;
         }
 
+
         public static List<Models.CellDto> TryJoinUp(IEnumerable<Models.CellDto> gameCells)
         {
             var field = gameCells.Where(x => x.ZIndex > 0).OrderByDescending(x => x.Pos.Y).ToList();
